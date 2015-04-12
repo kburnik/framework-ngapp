@@ -93,12 +93,29 @@ app
 
         return t;
       },
+
+      extendPost:function( methodName ) {
+        var t = this;
+        var method = this[ methodName ] = function( params ) {
+          return t.callPost( methodName , params );
+        };
+
+        return t;
+      },
+
       call:function( methodName , params ) {
         params = params || {};
 
         var promise = $http.get(  this.endPoint + '/' + this.entityName + '/@' + methodName , {params: params} );
 
         return extendPromise( promise );
+      },
+
+      callPost:function(methodName, params){
+        var promise = $http.post(
+          this.endPoint + '/' + this.entityName + '/@' + methodName , params );
+
+        return extendPromise(promise);
       },
 
       find:function( params ){
