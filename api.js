@@ -1,7 +1,7 @@
 
 app
 
-.factory('api',function( $http , $rootScope ) {
+.factory('api', function( $http , $rootScope ) {
 
   var isBusy = false;
 
@@ -68,8 +68,6 @@ app
   {
 
     var _api =  {
-
-
 
       endPoint:endPoint,
 
