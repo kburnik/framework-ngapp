@@ -10,7 +10,7 @@ app
 
     isBusy = true;
 
-    promise.ready = function( usersCompleteCallback ) {
+    promise.ready = function( usersCompleteCallback, failCallback ) {
       promise.success(function( response ) {
 
         isBusy = false;
@@ -34,6 +34,10 @@ app
         }
         else if ( response.status == 'error' )
         {
+          if ((typeof failCallback) == "function")
+            if (failCallback(response));
+              return;
+
           // api error
           $rootScope.$emit( 'error' ,
             [
@@ -45,6 +49,7 @@ app
         }
 
       });
+
       return promise;
     }
 
