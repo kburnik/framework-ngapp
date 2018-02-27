@@ -55,19 +55,25 @@ app
 
     // serverside system error
     promise.error(function(data, status, headers, config){
-      $rootScope.$emit( 'error' ,
-        [
-          'HTTP error' ,
-          { data:data, status:status, headers:headers, config:config }
-        ]
-      );
+      if (data && data.status == 'error') {
+        if ((typeof failCallback) == "function") {
+          failCallback(data);
+        }
+
+        $rootScope.$emit('error' , data.message);
+      } else {
+        $rootScope.$emit( 'error' ,
+          [
+            'HTTP error' ,
+            { data:data, status:status, headers:headers, config:config }
+          ]
+        );
+      }
 
     });
 
     return promise;
-
   }
-
 
   var apiConstructor  = function( endPoint , entityName )
   {
